@@ -99,7 +99,7 @@ describe('APIUsageTracker', () => {
       const fields = APIUsageTracker.formatUsageForEmbed(mockData);
       const fieldNames = fields.map(f => f.name);
 
-      expect(fieldNames.some(name => name.includes('No API Keys'))).toBe(true);
+      expect(fieldNames.some(name => name.includes('No Credentials'))).toBe(true);
     });
   });
 
@@ -162,6 +162,34 @@ describe('APIUsageTracker', () => {
       expect(summary).toContain('Gemini');
       expect(summary).toContain('150,000');
       expect(summary).toContain('120,000');
+    });
+  });
+
+  describe('getAuthStatus', () => {
+    test('should return authentication status', () => {
+      const status = APIUsageTracker.getAuthStatus();
+
+      expect(status).toHaveProperty('claude');
+      expect(status).toHaveProperty('gemini');
+      expect(status).toHaveProperty('codex');
+
+      expect(status.claude).toHaveProperty('api_key');
+      expect(status.claude).toHaveProperty('oauth');
+
+      expect(status.gemini).toHaveProperty('api_key');
+
+      expect(status.codex).toHaveProperty('api_key');
+      expect(status.codex).toHaveProperty('oauth');
+    });
+
+    test('should return boolean values for auth status', () => {
+      const status = APIUsageTracker.getAuthStatus();
+
+      expect(typeof status.claude.api_key).toBe('boolean');
+      expect(typeof status.claude.oauth).toBe('boolean');
+      expect(typeof status.gemini.api_key).toBe('boolean');
+      expect(typeof status.codex.api_key).toBe('boolean');
+      expect(typeof status.codex.oauth).toBe('boolean');
     });
   });
 });

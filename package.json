@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "deploy": "node deploy-commands.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
     "axios": "^1.15.2",
     "discord.js": "^14.26.3",
     "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0"
   }
 }
